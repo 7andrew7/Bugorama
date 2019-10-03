@@ -1,14 +1,12 @@
 #include <iostream>
 #include <string.h>
 
-char MemcpyOutOfBounds() {
-    char *x = (char *)malloc(64);
-    char *y = (char *)malloc(72);
-    memcpy(x, y, 72);
-    return x[55];
-}
+char MemcpyWrapper(void *dst, const void *src, size_t n);
 
 int main(int argc, char **argv) {
-  std::cout << MemcpyOutOfBounds() << std::endl;
+  char buf1[128];
+  char buf2[256];
+
+  MemcpyWrapper(buf1, buf2, sizeof(buf2));
   return 0;
 }
