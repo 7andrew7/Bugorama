@@ -5,7 +5,7 @@ SRCS := $(wildcard *.cc)
 # SwitchFallThrough rejected by gcc implicit-fallthrough on gcc 7+
 # StaticStackOutOfBounds.cc is rejected by gcc 7 at -O2 (but not at -o0 sadly)
 # NegativeVla is similar
-EXCLUDED := main.cc ReadUninitialized.cc SwitchFallThrough.cc StaticStackOutOfBounds.cc NegativeVla.cc 
+EXCLUDED := ReadUninitialized.cc SwitchFallThrough.cc StaticStackOutOfBounds.cc NegativeVla.cc 
 FILTERED := $(filter-out $(EXCLUDED) helpers.cc,$(SRCS))
 
 EXES := $(FILTERED:%=%.exe)
