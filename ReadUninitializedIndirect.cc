@@ -1,8 +1,6 @@
 #include <iostream>
 
-bool IsEven(int *x) {
-    return (*x % 2) == 0;
-}
+bool IsEven(int *x);
 
 int main(int argc, char **argv) {
   int x;
