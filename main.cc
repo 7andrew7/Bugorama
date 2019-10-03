@@ -5,9 +5,6 @@
 #include <setjmp.h>
 #include <signal.h>
 
-#define BLUE(string) "\x1b[34m" string "\x1b[0m"
-#define RED(string) "\x1b[31m" string "\x1b[0m"
-
 static jmp_buf my_jmp_buf;
 
 static char global_buffer_k[64];
@@ -46,6 +43,13 @@ int32_t SignedAddition(int32_t x, int32_t y) {
 int32_t GetMaxInt32() {
     uint32_t t = 1UL << 31;
     return static_cast<int32_t>(t - 1);
+}
+
+// https://blog.regehr.org/archives/959
+int AliasingTest(int *h, long *k) {
+    *h = 5;
+    *k = 6;
+    return *h;
 }
 
 int32_t SwitchFallThrough(int32_t arg) {
@@ -238,6 +242,11 @@ int main(int argc, char **argv) {
     }
 #endif
 
-   
+    {
+        long k;
+        int x = AliasingTest((int *)&k, &k);
+        std::cout << "ALIASING  " << x << std::endl;
+    }
+
     return 0;
 }
