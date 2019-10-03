@@ -9,5 +9,6 @@ void UseAfterReturn(int32_t **out) {
 int main(int argc, char **argv) {
   int32_t *x;
   UseAfterReturn(&x);
-  std::cout << "USE AFTER RETURN " << x << std::endl;
+  *x = 42;
+  std::cout << "USE AFTER RETURN " << *x << std::endl;
 }
