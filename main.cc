@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <setjmp.h>
 #include <signal.h>
+#include <string.h>
 
 static jmp_buf my_jmp_buf;
 
@@ -52,6 +53,9 @@ int AliasingTest(int *h, long *k) {
     return *h;
 }
 
+#ifdef ENABLE_SWITCH_TEST
+// Rejected by implicit-fallthrough on gcc 7+
+// https://developers.redhat.com/blog/2017/03/10/wimplicit-fallthrough-in-gcc-7/
 int32_t SwitchFallThrough(int32_t arg) {
     int32_t x = 0;
     switch(arg) {
@@ -62,6 +66,11 @@ int32_t SwitchFallThrough(int32_t arg) {
     }
     return x;
 }
+#else
+int32_t SwitchFallThrough(int32_t arg) {
+  return 0;
+}
+#endif
 
 char MemcpyOutOfBounds() {
     char *x = (char *)malloc(64);
