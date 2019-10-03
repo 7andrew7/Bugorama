@@ -1,5 +1,7 @@
 #include <iostream>
 
+// Reference out-of-bounds stack memory via a helper function
+
 char BufferFetch(char *buffer, size_t index) {
     return buffer[index];
 }
