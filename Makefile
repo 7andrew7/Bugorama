@@ -2,7 +2,8 @@
 SRCS := $(wildcard *.cc)
 
 # ReadUninitialized.cc is rejected via -Werror=uninitialized on gcc 7.4.0
-EXCLUDED := main.cc ReadUninitialized.cc
+# SwitchFallThrough rejected by gcc implicit-fallthrough on gcc 7+
+EXCLUDED := main.cc ReadUninitialized.cc SwitchFallThrough.cc
 FILTERED := $(filter-out $(EXCLUDED),$(SRCS))
 
 EXES := $(FILTERED:%=%.exe)
