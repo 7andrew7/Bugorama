@@ -6,11 +6,11 @@ This documents summarizes results from October 2019 running with various compile
 
 - GCC7=gcc version 7.4.0
 - CL8=clang 8.0.0-3
-- CL8+SA=clang8 + static analyzer
-- CL8+AU=clang8 + address sanitizer + undefined behavior sanitizer
-- CL8+MS=clang8 + memory sanitizer (incompatible with address sanitizer)
-- CPPC=CppCheck 1.82
-- VG=valgrind 3.13.0
+- CL8+SA=clang8 + [static analyzer]([https://clang-analyzer.llvm.org](https://clang-analyzer.llvm.org/))
+- CL8+AU=clang8 + [address sanitizer](https://clang.llvm.org/docs/AddressSanitizer.html) + [undefined behavior sanitizer](https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html).  Note that address sanitizer now implies the leak sanitizer.
+- CL8+MS=clang8 + [memory sanitizer](https://clang.llvm.org/docs/MemorySanitizer.html) (incompatible with address sanitizer)
+- CPPC=[CppCheck](http://cppcheck.sourceforge.net/) 1.82
+- VG=[valgrind](http://valgrind.org/) 3.13.0
 
 All tests were run on Ubuntu 18.04 on an t2.xlarge instance.
 
@@ -72,9 +72,9 @@ valgrind --tool=memcheck --leak-check=yes --show-reachable=yes --num-callers=20 
 
 ## Notes
 
-As a general comment, gcc7 is very bad about reporting different failure modes for different optimization levels.  -O2 seems to generate more errors than -O0.
+The ASAN/Valgrind comparison [described here](https://github.com/google/sanitizers/wiki/AddressSanitizerComparisonOfMemoryTools) is mostly accurate.  Valgrind is the only system that reliable detects most accesses to uninitialized data.  However, valgrind struggles to detect out-of-bounds accesses to global data and stack data, presumably because the tool doesn't understand the semnatics of these accesses.  In contrast to the google wiki, I found that Valgrind was able to detect use-after-return errors for me.  I didn't find the clang memory sanitizer to be much use.
 
-The clang8 memory sanitizer was not able to detect my uninitialized reads.  Both unitialized read tests use stack memory for what it's worth.
+As a general comment, gcc7 is very bad about reporting different failure modes for different optimization levels.  -O2 seems to generate more warnings/errors than -O0.
 
-I suspect that the static analysis tools can be fooled by moving code around within compilation units: e.g., ReadUnitialized versus ReadUninitializedIndirect.
+cpp-check was surprisingly useful.  However, I suspect that the static analysis tools can be fooled by moving code around within compilation units: e.g., ReadUnitialized versus ReadUninitializedIndirect.
 

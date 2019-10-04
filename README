@@ -1,3 +1,7 @@
 This repository is an attempt at a "bug benchmark" for evaluating
-various static and dynamic analysis tools.  See the Results document
-for a summary of results with various tools.
+various static and dynamic analysis tools.  The tests include outright
+bugs (e.g., use-after-free), undefined behaviors (e.g., signed integer
+wraparound), and dubious programming practices (e.g., implicit switch
+fall-through).
+
+See the Results document for a summary of results with various tools.
