@@ -72,9 +72,8 @@ valgrind --tool=memcheck --leak-check=yes --show-reachable=yes --num-callers=20 
 
 ## Notes
 
-The ASAN/Valgrind comparison [described here](https://github.com/google/sanitizers/wiki/AddressSanitizerComparisonOfMemoryTools) is mostly accurate.  Valgrind is the only system that reliable detects most accesses to uninitialized data.  However, valgrind struggles to detect out-of-bounds accesses to global data and stack data, presumably because the tool doesn't understand the semnatics of these accesses.  In contrast to the google wiki, I found that Valgrind was able to detect use-after-return errors for me.  I didn't find the clang memory sanitizer to be much use.
+The ASAN/Valgrind comparison [described here](https://github.com/google/sanitizers/wiki/AddressSanitizerComparisonOfMemoryTools) is mostly accurate.  Valgrind is the only system that reliably detects most accesses to uninitialized data.  However, valgrind struggles to detect out-of-bounds accesses to global data and stack data, presumably because the tool doesn't understand the semnatics of these accesses.  The clang UB sanitizer is the only tool that detects "undefined" behaviors such as signed integer overflow and shift-past-bit-width  In contrast to the google wiki, I found that Valgrind was able to detect use-after-return errors.  I didn't find the clang memory sanitizer to be much use.
 
 As a general comment, gcc7 is very bad about reporting different failure modes for different optimization levels.  -O2 seems to generate more warnings/errors than -O0.
 
 cpp-check was surprisingly useful.  However, I suspect that the static analysis tools can be fooled by moving code around within compilation units: e.g., ReadUnitialized versus ReadUninitializedIndirect.
-
