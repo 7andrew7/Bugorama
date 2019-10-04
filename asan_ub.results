@@ -1,0 +1,412 @@
+=================================================================
+==21139==ERROR: AddressSanitizer: attempting double-free on 0x602000000010 in thread T0:
+    #0 0x4c6c92 in free (/home/ubuntu/Bugorama/DoubleFree.cc.exe+0x4c6c92)
+    #1 0x4f9492 in main /home/ubuntu/Bugorama/DoubleFree.cc:17:3
+    #2 0x7fefbe62bb96 in __libc_start_main /build/glibc-OTsEL5/glibc-2.27/csu/../csu/libc-start.c:310
+    #3 0x41b669 in _start (/home/ubuntu/Bugorama/DoubleFree.cc.exe+0x41b669)
+
+0x602000000010 is located 0 bytes inside of 4-byte region [0x602000000010,0x602000000014)
+freed by thread T0 here:
+    #0 0x4c6c92 in free (/home/ubuntu/Bugorama/DoubleFree.cc.exe+0x4c6c92)
+    #1 0x4f9451 in MallocAndFree() /home/ubuntu/Bugorama/DoubleFree.cc:11:3
+    #2 0x4f9487 in main /home/ubuntu/Bugorama/DoubleFree.cc:16:16
+    #3 0x7fefbe62bb96 in __libc_start_main /build/glibc-OTsEL5/glibc-2.27/csu/../csu/libc-start.c:310
+
+previously allocated by thread T0 here:
+    #0 0x4c7013 in __interceptor_malloc (/home/ubuntu/Bugorama/DoubleFree.cc.exe+0x4c7013)
+    #1 0x4f9437 in MallocAndFree() /home/ubuntu/Bugorama/DoubleFree.cc:9:27
+    #2 0x4f9487 in main /home/ubuntu/Bugorama/DoubleFree.cc:16:16
+    #3 0x7fefbe62bb96 in __libc_start_main /build/glibc-OTsEL5/glibc-2.27/csu/../csu/libc-start.c:310
+
+SUMMARY: AddressSanitizer: double-free (/home/ubuntu/Bugorama/DoubleFree.cc.exe+0x4c6c92) in free
+==21139==ABORTING
+DoubleTruncation.cc:6:12: runtime error: 1.79769e+308 is outside the range of representable values of type 'long'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior DoubleTruncation.cc:6:12 in 
+GlobalOutOfBounds.cc:6:10: runtime error: index 130 out of bounds for type 'char [128]'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior GlobalOutOfBounds.cc:6:10 in 
+=================================================================
+==21143==ERROR: AddressSanitizer: global-buffer-overflow on address 0x0000010578a2 at pc 0x0000004f9367 bp 0x7ffd00fb8470 sp 0x7ffd00fb8468
+READ of size 1 at 0x0000010578a2 thread T0
+    #0 0x4f9366 in GlobalOutOfBounds(unsigned long) /home/ubuntu/Bugorama/GlobalOutOfBounds.cc:6:10
+    #1 0x4f93a7 in main /home/ubuntu/Bugorama/GlobalOutOfBounds.cc:10:16
+    #2 0x7f524c048b96 in __libc_start_main /build/glibc-OTsEL5/glibc-2.27/csu/../csu/libc-start.c:310
+    #3 0x41b559 in _start (/home/ubuntu/Bugorama/GlobalOutOfBounds.cc.exe+0x41b559)
+
+0x0000010578a2 is located 30 bytes to the left of global variable 'std::__ioinit' defined in '/usr/bin/../lib/gcc/x86_64-linux-gnu/7.4.0/../../../../include/c++/7.4.0/iostream:74:25' (0x10578c0) of size 1
+  'std::__ioinit' is ascii string ''
+0x0000010578a2 is located 2 bytes to the right of global variable 'buffer' defined in 'GlobalOutOfBounds.cc:3:13' (0x1057820) of size 128
+SUMMARY: AddressSanitizer: global-buffer-overflow /home/ubuntu/Bugorama/GlobalOutOfBounds.cc:6:10 in GlobalOutOfBounds(unsigned long)
+Shadow bytes around the buggy address:
+  0x000080202ec0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x000080202ed0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x000080202ee0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x000080202ef0: 00 00 00 00 00 00 00 00 00 00 00 00 01 f9 f9 f9
+  0x000080202f00: f9 f9 f9 f9 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x000080202f10: 00 00 00 00[f9]f9 f9 f9 01 f9 f9 f9 f9 f9 f9 f9
+  0x000080202f20: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x000080202f30: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x000080202f40: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x000080202f50: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x000080202f60: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+  Shadow gap:              cc
+==21143==ABORTING
+HeapOutOfBounds.cc:5:16: runtime error: load of address 0x60c0000000c2 with insufficient space for an object of type 'char'
+0x60c0000000c2: note: pointer points here
+ be be  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  00 00 00 00 00 00
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior HeapOutOfBounds.cc:5:16 in 
+=================================================================
+==21145==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x60c0000000c2 at pc 0x0000004f9382 bp 0x7ffdfde15630 sp 0x7ffdfde15628
+READ of size 1 at 0x60c0000000c2 thread T0
+    #0 0x4f9381 in HeapOutOfBounds() /home/ubuntu/Bugorama/HeapOutOfBounds.cc:5:16
+    #1 0x4f93b2 in main /home/ubuntu/Bugorama/HeapOutOfBounds.cc:11:16
+    #2 0x7f2424c72b96 in __libc_start_main /build/glibc-OTsEL5/glibc-2.27/csu/../csu/libc-start.c:310
+    #3 0x41b559 in _start (/home/ubuntu/Bugorama/HeapOutOfBounds.cc.exe+0x41b559)
+
+0x60c0000000c2 is located 2 bytes to the right of 128-byte region [0x60c000000040,0x60c0000000c0)
+allocated by thread T0 here:
+    #0 0x4c6f03 in __interceptor_malloc (/home/ubuntu/Bugorama/HeapOutOfBounds.cc.exe+0x4c6f03)
+    #1 0x4f9328 in HeapOutOfBounds() /home/ubuntu/Bugorama/HeapOutOfBounds.cc:4:28
+    #2 0x4f93b2 in main /home/ubuntu/Bugorama/HeapOutOfBounds.cc:11:16
+    #3 0x7f2424c72b96 in __libc_start_main /build/glibc-OTsEL5/glibc-2.27/csu/../csu/libc-start.c:310
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow /home/ubuntu/Bugorama/HeapOutOfBounds.cc:5:16 in HeapOutOfBounds()
+Shadow bytes around the buggy address:
+  0x0c187fff7fc0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c187fff7fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c187fff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c187fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c187fff8000: fa fa fa fa fa fa fa fa 00 00 00 00 00 00 00 00
+=>0x0c187fff8010: 00 00 00 00 00 00 00 00[fa]fa fa fa fa fa fa fa
+  0x0c187fff8020: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c187fff8030: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c187fff8040: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c187fff8050: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c187fff8060: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+  Shadow gap:              cc
+==21145==ABORTING
+=================================================================
+==21149==ERROR: AddressSanitizer: memcpy-param-overlap: memory ranges [0x7f877f971020,0x7f877f971120) and [0x7f877f9710c0, 0x7f877f9711c0) overlap
+    #0 0x4c5928 in __asan_memcpy (/home/ubuntu/Bugorama/MemcpyOutOfBounds.cc.exe+0x4c5928)
+    #1 0x4f90a2 in MemcpyWrapper(void*, void const*, unsigned long) /home/ubuntu/Bugorama/helpers.cc:7:5
+    #2 0x4f8fbc in main /home/ubuntu/Bugorama/MemcpyOutOfBounds.cc:10:3
+    #3 0x7f8782ce4b96 in __libc_start_main /build/glibc-OTsEL5/glibc-2.27/csu/../csu/libc-start.c:310
+    #4 0x41b109 in _start (/home/ubuntu/Bugorama/MemcpyOutOfBounds.cc.exe+0x41b109)
+
+Address 0x7f877f971020 is located in stack of thread T0 at offset 32 in frame
+    #0 0x4f8ecf in main /home/ubuntu/Bugorama/MemcpyOutOfBounds.cc:6
+
+  This frame has 2 object(s):
+    [32, 160) 'buf1' (line 7) <== Memory access at offset 32 partially overflows this variable
+    [192, 448) 'buf2' (line 8) <== Memory access at offset 32 partially underflows this variable
+HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
+      (longjmp and C++ exceptions *are* supported)
+Address 0x7f877f9710c0 is located in stack of thread T0 at offset 192 in frame
+    #0 0x4f8ecf in main /home/ubuntu/Bugorama/MemcpyOutOfBounds.cc:6
+
+  This frame has 2 object(s):
+    [32, 160) 'buf1' (line 7)
+    [192, 448) 'buf2' (line 8) <== Memory access at offset 192 is inside this variable
+HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
+      (longjmp and C++ exceptions *are* supported)
+SUMMARY: AddressSanitizer: memcpy-param-overlap (/home/ubuntu/Bugorama/MemcpyOutOfBounds.cc.exe+0x4c5928) in __asan_memcpy
+==21149==ABORTING
+
+=================================================================
+==21151==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 128 byte(s) in 1 object(s) allocated from:
+    #0 0x4c7023 in __interceptor_malloc (/home/ubuntu/Bugorama/MemoryLeak.cc.exe+0x4c7023)
+    #1 0x4f9463 in main /home/ubuntu/Bugorama/MemoryLeak.cc:10:13
+    #2 0x7f538faf4b96 in __libc_start_main /build/glibc-OTsEL5/glibc-2.27/csu/../csu/libc-start.c:310
+
+SUMMARY: AddressSanitizer: 128 byte(s) leaked in 1 allocation(s).
+NegativeVla.cc:5:17: runtime error: variable length array bound evaluates to non-positive value -8
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior NegativeVla.cc:5:17 in 
+=================================================================
+==21154==ERROR: AddressSanitizer: dynamic-stack-buffer-overflow on address 0x7fffb9fcf880 at pc 0x000000436429 bp 0x7fffb9fcf790 sp 0x7fffb9fcef18
+READ of size 256 at 0x7fffb9fcf880 thread T0
+    #0 0x436428 in memcmp (/home/ubuntu/Bugorama/NegativeVla.cc.exe+0x436428)
+    #1 0x7f8be996defb in std::ctype<char>::_M_widen_init() const (/usr/lib/x86_64-linux-gnu/libstdc++.so.6+0xb8efb)
+    #2 0x7f8be99c9237 in std::ostream& std::ostream::_M_insert<long>(long) (/usr/lib/x86_64-linux-gnu/libstdc++.so.6+0x114237)
+    #3 0x4f96d7 in main /home/ubuntu/Bugorama/NegativeVla.cc:13:32
+    #4 0x7f8be8904b96 in __libc_start_main /build/glibc-OTsEL5/glibc-2.27/csu/../csu/libc-start.c:310
+    #5 0x41b679 in _start (/home/ubuntu/Bugorama/NegativeVla.cc.exe+0x41b679)
+
+Address 0x7fffb9fcf880 is located in stack of thread T0
+SUMMARY: AddressSanitizer: dynamic-stack-buffer-overflow (/home/ubuntu/Bugorama/NegativeVla.cc.exe+0x436428) in memcmp
+Shadow bytes around the buggy address:
+  0x1000773f1ec0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x1000773f1ed0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x1000773f1ee0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x1000773f1ef0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x1000773f1f00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x1000773f1f10:[cb]cb cb cb ca ca ca ca 00 00 00 00 00 00 00 00
+  0x1000773f1f20: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x1000773f1f30: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x1000773f1f40: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x1000773f1f50: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x1000773f1f60: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+  Shadow gap:              cc
+==21154==ABORTING
+ShiftPastBitWidth.cc:5:14: runtime error: shift exponent 35 is too large for 32-bit type 'int32_t' (aka 'int')
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ShiftPastBitWidth.cc:5:14 in 
+SignedOverflow.cc:7:48: runtime error: signed integer overflow: 2147483647 + 107 cannot be represented in type 'int'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior SignedOverflow.cc:7:48 in 
+=================================================================
+==21164==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7fe98579b123 at pc 0x0000004f9356 bp 0x7ffcf94569d0 sp 0x7ffcf94569c8
+READ of size 1 at 0x7fe98579b123 thread T0
+    #0 0x4f9355 in BufferFetch(char*, unsigned long) /home/ubuntu/Bugorama/StackOutBounds.cc:6:12
+    #1 0x4f948b in main /home/ubuntu/Bugorama/StackOutBounds.cc:11:12
+    #2 0x7fe988b0eb96 in __libc_start_main /build/glibc-OTsEL5/glibc-2.27/csu/../csu/libc-start.c:310
+    #3 0x41b559 in _start (/home/ubuntu/Bugorama/StackOutBounds.cc.exe+0x41b559)
+
+Address 0x7fe98579b123 is located in stack of thread T0 at offset 291 in frame
+    #0 0x4f938f in main /home/ubuntu/Bugorama/StackOutBounds.cc:9
+
+  This frame has 1 object(s):
+    [32, 288) 'buffer' (line 10) <== Memory access at offset 291 overflows this variable
+HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
+      (longjmp and C++ exceptions *are* supported)
+SUMMARY: AddressSanitizer: stack-buffer-overflow /home/ubuntu/Bugorama/StackOutBounds.cc:6:12 in BufferFetch(char*, unsigned long)
+Shadow bytes around the buggy address:
+  0x0ffdb0aeb5d0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ffdb0aeb5e0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ffdb0aeb5f0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ffdb0aeb600: f1 f1 f1 f1 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ffdb0aeb610: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x0ffdb0aeb620: 00 00 00 00[f3]f3 f3 f3 f3 f3 f3 f3 00 00 00 00
+  0x0ffdb0aeb630: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ffdb0aeb640: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ffdb0aeb650: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ffdb0aeb660: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ffdb0aeb670: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+  Shadow gap:              cc
+==21164==ABORTING
+=================================================================
+==21166==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x606000000120 at pc 0x0000004b24b5 bp 0x7ffeab0a42e0 sp 0x7ffeab0a3a70
+WRITE of size 72 at 0x606000000120 thread T0
+    #0 0x4b24b4 in strncpy (/home/ubuntu/Bugorama/StrcpyOutOfBounds.cc.exe+0x4b24b4)
+    #1 0x4f97e2 in StrncpyWrapper(char*, char*, unsigned long) /home/ubuntu/Bugorama/helpers.cc:15:5
+    #2 0x4f9344 in main /home/ubuntu/Bugorama/StrcpyOutOfBounds.cc:10:16
+    #3 0x7f4ff29f8b96 in __libc_start_main /build/glibc-OTsEL5/glibc-2.27/csu/../csu/libc-start.c:310
+    #4 0x41b559 in _start (/home/ubuntu/Bugorama/StrcpyOutOfBounds.cc.exe+0x41b559)
+
+0x606000000120 is located 0 bytes to the right of 64-byte region [0x6060000000e0,0x606000000120)
+allocated by thread T0 here:
+    #0 0x4c6f03 in __interceptor_malloc (/home/ubuntu/Bugorama/StrcpyOutOfBounds.cc.exe+0x4c6f03)
+    #1 0x4f9327 in main /home/ubuntu/Bugorama/StrcpyOutOfBounds.cc:7:21
+    #2 0x7f4ff29f8b96 in __libc_start_main /build/glibc-OTsEL5/glibc-2.27/csu/../csu/libc-start.c:310
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow (/home/ubuntu/Bugorama/StrcpyOutOfBounds.cc.exe+0x4b24b4) in strncpy
+Shadow bytes around the buggy address:
+  0x0c0c7fff7fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c0c7fff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c0c7fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c0c7fff8000: fa fa fa fa fd fd fd fd fd fd fd fd fa fa fa fa
+  0x0c0c7fff8010: 00 00 00 00 00 00 00 05 fa fa fa fa 00 00 00 00
+=>0x0c0c7fff8020: 00 00 00 00[fa]fa fa fa fa fa fa fa fa fa fa fa
+  0x0c0c7fff8030: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c0c7fff8040: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c0c7fff8050: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c0c7fff8060: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c0c7fff8070: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+  Shadow gap:              cc
+==21166==ABORTING
+=================================================================
+==21172==ERROR: AddressSanitizer: heap-use-after-free on address 0x602000000010 at pc 0x0000004f959c bp 0x7ffc8f5e2900 sp 0x7ffc8f5e28f8
+READ of size 4 at 0x602000000010 thread T0
+    #0 0x4f959b in main /home/ubuntu/Bugorama/UseAfterFree.cc:16:37
+    #1 0x7f4d77c49b96 in __libc_start_main /build/glibc-OTsEL5/glibc-2.27/csu/../csu/libc-start.c:310
+    #2 0x41b669 in _start (/home/ubuntu/Bugorama/UseAfterFree.cc.exe+0x41b669)
+
+0x602000000010 is located 0 bytes inside of 4-byte region [0x602000000010,0x602000000014)
+freed by thread T0 here:
+    #0 0x4c6c92 in free (/home/ubuntu/Bugorama/UseAfterFree.cc.exe+0x4c6c92)
+    #1 0x4f9451 in MallocAndFree() /home/ubuntu/Bugorama/UseAfterFree.cc:10:3
+    #2 0x4f9487 in main /home/ubuntu/Bugorama/UseAfterFree.cc:15:16
+    #3 0x7f4d77c49b96 in __libc_start_main /build/glibc-OTsEL5/glibc-2.27/csu/../csu/libc-start.c:310
+
+previously allocated by thread T0 here:
+    #0 0x4c7013 in __interceptor_malloc (/home/ubuntu/Bugorama/UseAfterFree.cc.exe+0x4c7013)
+    #1 0x4f9437 in MallocAndFree() /home/ubuntu/Bugorama/UseAfterFree.cc:8:27
+    #2 0x4f9487 in main /home/ubuntu/Bugorama/UseAfterFree.cc:15:16
+    #3 0x7f4d77c49b96 in __libc_start_main /build/glibc-OTsEL5/glibc-2.27/csu/../csu/libc-start.c:310
+
+SUMMARY: AddressSanitizer: heap-use-after-free /home/ubuntu/Bugorama/UseAfterFree.cc:16:37 in main
+Shadow bytes around the buggy address:
+  0x0c047fff7fb0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c047fff7fc0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c047fff7fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c047fff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c047fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x0c047fff8000: fa fa[fd]fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff8010: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff8020: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff8030: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff8040: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff8050: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+  Shadow gap:              cc
+==21172==ABORTING
+=================================================================
+==21174==ERROR: AddressSanitizer: stack-use-after-return on address 0x7fb9dc5370b4 at pc 0x0000004f9831 bp 0x7ffe26b8d790 sp 0x7ffe26b8d788
+WRITE of size 4 at 0x7fb9dc5370b4 thread T0
+    #0 0x4f9830 in main /home/ubuntu/Bugorama/UseAfterRet.cc:12:6
+    #1 0x7fb9df6aab96 in __libc_start_main /build/glibc-OTsEL5/glibc-2.27/csu/../csu/libc-start.c:310
+    #2 0x41b669 in _start (/home/ubuntu/Bugorama/UseAfterRet.cc.exe+0x41b669)
+
+Address 0x7fb9dc5370b4 is located in stack of thread T0 at offset 180 in frame
+    #0 0x4f942f in UseAfterReturn(int**) /home/ubuntu/Bugorama/UseAfterRet.cc:4
+
+  This frame has 1 object(s):
+    [32, 1056) 'x' (line 5) <== Memory access at offset 180 is inside this variable
+HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
+      (longjmp and C++ exceptions *are* supported)
+SUMMARY: AddressSanitizer: stack-use-after-return /home/ubuntu/Bugorama/UseAfterRet.cc:12:6 in main
+Shadow bytes around the buggy address:
+  0x0ff7bb89edc0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ff7bb89edd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ff7bb89ede0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ff7bb89edf0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ff7bb89ee00: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+=>0x0ff7bb89ee10: f5 f5 f5 f5 f5 f5[f5]f5 f5 f5 f5 f5 f5 f5 f5 f5
+  0x0ff7bb89ee20: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+  0x0ff7bb89ee30: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+  0x0ff7bb89ee40: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+  0x0ff7bb89ee50: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+  0x0ff7bb89ee60: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+  Shadow gap:              cc
+==21174==ABORTING
