@@ -19,7 +19,7 @@ All tests were run on Ubuntu 18.04 on an t2.xlarge instance.
 The compiler flags were as follows:
 
 ```
-CSSFLAGS := -std=c++17 -O2 -g -Wall -Wextra -Werror -Wno-unused-parameter -Wno-unused-variable
+CXXFLAGS := -std=c++17 -O2 -g -Wall -Wextra -Werror -Wno-unused-parameter -Wno-unused-variable
 ```
 
 This does not leverage all possible warnings.  In particular, `-Wconversion` (and friends) would likely detect the trunction errors (IntegerTruncation, DoubleTruncation).
